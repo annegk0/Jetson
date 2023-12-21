@@ -1,0 +1,17 @@
+# paths to the model and the audio
+ENGINE_PATH="Sources/mobileNet_engine_DLA.trt"
+AUDIO_PATH="../Resources/image_701x64.npy"
+# maybe add power mode, nb of rep, change the results file name depending on the args in the py file
+
+# creation of the trt file if necessary
+convert_onnx="False"
+
+if [ "$convert_onnx" = "TRUE" ]; then
+    /usr/src/tensorrt/bin/trtexec --onnx=Sources/MobileNetTens_W_10.onnx --saveEngine=$ENGINE_PATH
+fi
+
+
+python3 Scripts/inference_mean_conso.py  \
+    --engine_path=$ENGINE_PATH \
+    --audio_path=$AUDIO_PATH
+
